@@ -30,8 +30,8 @@
   },
   "devDependencies": {
     "@nestjs/cli": "9.1.5",
-    "@nestjs/schematics": "9.0.3",
-    "@nestjs/testing": "9.2.0",
+    "@nestjs/schematics": "9.0.4",
+    "@nestjs/testing": "9.3.8",
     "@release-it/conventional-changelog": "^5.1.1",
     "@types/jest": "29.2.3",
     "@types/node": "18.11.9",
