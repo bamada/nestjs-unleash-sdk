@@ -24,7 +24,7 @@
     "@nestjs/common": "^9.0.0",
     "@nestjs/config": "2.2.0",
     "@nestjs/core": "^9.0.0",
-    "husky": "8.0.2",
+    "husky": "8.0.3",
     "reflect-metadata": "0.1.13",
     "unleash-client": "^3.18.1"
   },
