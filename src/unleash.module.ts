@@ -13,9 +13,7 @@ const unleashClientFactory = {
   inject: [UNLEASH_OPTIONS],
 };
 
-@Module({
-  exports: [UnleashService],
-})
+@Module({})
 export class UnleashModule {
   /**
    *
