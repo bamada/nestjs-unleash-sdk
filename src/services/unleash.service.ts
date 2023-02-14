@@ -1,5 +1,6 @@
 import { Inject, Injectable, Logger, OnModuleInit } from '@nestjs/common';
-import { Unleash, UnleashEvents } from 'unleash-client';
+import { Unleash, UnleashEvents, Context } from 'unleash-client';
+import { FallbackFunction } from 'unleash-client/lib/helpers';
 import { UNLEASH_CLIENT } from '../unleash.constants';
 
 @Injectable()
@@ -35,5 +36,17 @@ export class UnleashService implements OnModuleInit {
         this.logger.debug(`${key} ${payload ? JSON.stringify(payload) : ''}`);
       });
     });
+  }
+
+  isEnabled(
+    featureName: string,
+    context?: Context,
+    fallback?: boolean | FallbackFunction,
+  ): boolean {
+    if (fallback instanceof Function) {
+      return this.unleashClient.isEnabled(featureName, context, fallback);
+    }
+
+    return this.unleashClient.isEnabled(featureName, context, fallback);
   }
 }

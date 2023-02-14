@@ -6,3 +6,4 @@
 
 export * from './unleash.module';
 export * from './services';
+export * from './decorators';
