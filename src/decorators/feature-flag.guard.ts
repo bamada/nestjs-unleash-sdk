@@ -6,8 +6,7 @@ import {
 } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
 import { Observable } from 'rxjs';
-import { Context } from 'unleash-client';
-import { FallbackFunction } from 'unleash-client/lib/helpers';
+import { IOptions } from '../interfaces/metadata.interface';
 import { UnleashService } from '../services';
 import { UNLEASH_FEAT_DECORATOR } from '../unleash.constants';
 
@@ -32,13 +31,27 @@ export class FeatureFlagGuard implements CanActivate {
   canActivate(
     executionContext: ExecutionContext,
   ): boolean | Promise<boolean> | Observable<boolean> {
-    const { featureName, context, fallback } = this.reflector.get<{
+    const { featureName, options } = this.reflector.get<{
       featureName: string;
-      context?: Context;
-      fallback?: boolean | FallbackFunction;
+      options: IOptions;
     }>(UNLEASH_FEAT_DECORATOR, executionContext.getHandler());
 
-    if (!this.unleashService.isEnabled(featureName, context, fallback)) {
+    if (options.useReq) {
+      const request = executionContext.switchToHttp().getRequest();
+      if (options.reqCallback) {
+        options.context.userId = options.reqCallback(request);
+      } else {
+        options.context.userId = request.user.id;
+      }
+    }
+
+    if (
+      !this.unleashService.isEnabled(
+        featureName,
+        options.context,
+        options.fallback,
+      )
+    ) {
       throw new NotFoundException();
     }
 

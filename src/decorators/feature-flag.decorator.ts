@@ -1,20 +1,11 @@
 import { applyDecorators, SetMetadata, UseGuards } from '@nestjs/common';
-import { Context } from 'unleash-client';
-import { FallbackFunction } from 'unleash-client/lib/helpers';
+import { IOptions } from '../interfaces/metadata.interface';
 import { UNLEASH_FEAT_DECORATOR } from '../unleash.constants';
 import { FeatureFlagGuard } from './feature-flag.guard';
 
-export const IsFeatEnabled = (
-  featureName: string,
-  context?: Context,
-  fallback?: boolean | FallbackFunction,
-) => {
+export const IsFeatEnabled = (featureName: string, options: IOptions) => {
   return applyDecorators(
-    SetMetadata(UNLEASH_FEAT_DECORATOR, {
-      featureName,
-      context,
-      fallback,
-    }),
+    SetMetadata(UNLEASH_FEAT_DECORATOR, { featureName, options }),
     UseGuards(FeatureFlagGuard),
   );
 };
